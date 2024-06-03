@@ -2,7 +2,16 @@
     mb_internal_encoding("utf8");
     $pdo = new PDO("mysql:dbname=lesson01;host=localhost;" ,"root" ,"");
 
-    $pdo->exec("insert into contactform(name,mail,age,comments)values('".$_POST['name']."','".$_POST['mail']."','".$_POST['age']."','".$_POST['comments']."');");
+    $sql = "insert into contactform(name, mail, age, comments) values (?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->bindValue(1, $_POST['name']);
+    $stmt->bindValue(2, $_POST['mail']);
+    $stmt->bindValue(3, $_POST['age']);
+    $stmt->bindValue(4, $_POST['comments']);
+    
+    $stmt->execute();
+
 ?>
 
 <!doctype HTML>
